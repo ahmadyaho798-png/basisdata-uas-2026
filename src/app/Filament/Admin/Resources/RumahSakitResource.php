@@ -23,7 +23,40 @@ class RumahSakitResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('kode_rs')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('nama')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('tipe_rs')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('alamat')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('kota')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('provinsi')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('telepon')
+                    ->tel()
+                    ->maxLength(255)
+                    ->default(null),
+                Forms\Components\TextInput::make('email')
+                    ->email()
+                    ->maxLength(255)
+                    ->default(null),
+                Forms\Components\TextInput::make('website')
+                    ->maxLength(255)
+                    ->default(null),
+                Forms\Components\FileUpload::make('upload_gambar')
+                    ->disk('minio')
+                    ->visibility('public')
+                    ->image()
+                    ->maxSize(2048),
             ]);
     }
 
@@ -31,6 +64,24 @@ class RumahSakitResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('kode_rs')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('nama')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('tipe_rs')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('alamat')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('kota')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('provinsi')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('telepon')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('email')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('website')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -39,6 +90,8 @@ class RumahSakitResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('upload_gambar')
+                    ->searchable(),
             ])
             ->filters([
                 //

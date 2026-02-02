@@ -4,14 +4,26 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class RumahSakitSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
-    {
-        //
-    }
+{
+    DB::table('rumah_sakits')->updateOrInsert(
+        ['kode_rs' => 'RS001'], // kunci unik dicek di sini
+        [
+            'nama' => 'RS Sehat Merdeka',
+            'tipe_rs' => 'B',
+            'alamat' => 'Jl. Merdeka No. 12',
+            'kota' => 'Jakarta',
+            'provinsi' => 'DKI Jakarta',
+            'telepon' => '0211234567',
+            'email' => 'info@rssehat.com',
+            'website' => 'https://rssehat.com',
+            'created_at' => now(),
+        ]
+    );
+}
+
 }

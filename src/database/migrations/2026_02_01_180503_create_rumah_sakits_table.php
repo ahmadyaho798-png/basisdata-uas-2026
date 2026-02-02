@@ -12,9 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('rumah_sakits', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+           $table->id();
+    $table->string('kode_rs')->unique();
+    $table->string('nama');
+    $table->string('tipe_rs');
+    $table->string('alamat');
+    $table->string('kota');
+    $table->string('provinsi');
+    $table->string('telepon')->nullable();
+    $table->string('email')->nullable();
+    $table->string('website')->nullable();
+    $table->timestamps();
+    $table->string('upload_gambar')->nullable();
+         });
     }
 
     /**

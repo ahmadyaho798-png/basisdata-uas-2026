@@ -23,7 +23,23 @@ class JadwalPraktekResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('dokter_id')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('hari')
+                    ->required(),
+                Forms\Components\TextInput::make('jam_mulai')
+                    ->required(),
+                Forms\Components\TextInput::make('jam_selesai')
+                    ->required(),
+                Forms\Components\Toggle::make('is_libur')
+                    ->required(),
+                Forms\Components\FileUpload::make('upload_gambar')
+                    ->disk('minio')
+                    ->visibility('public')
+                    ->image()
+                    ->maxSize(2048),
+
             ]);
     }
 
@@ -31,6 +47,14 @@ class JadwalPraktekResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('dokter_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('hari'),
+                Tables\Columns\TextColumn::make('jam_mulai'),
+                Tables\Columns\TextColumn::make('jam_selesai'),
+                Tables\Columns\IconColumn::make('is_libur')
+                    ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -39,6 +63,8 @@ class JadwalPraktekResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('upload_gambar')
+                    ->searchable(),
             ])
             ->filters([
                 //

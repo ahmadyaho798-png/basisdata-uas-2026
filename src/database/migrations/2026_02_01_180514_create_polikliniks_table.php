@@ -13,8 +13,15 @@ return new class extends Migration
     {
         Schema::create('polikliniks', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-        });
+    $table->foreignId('rumah_sakit_id')->constrained()->cascadeOnDelete();
+    $table->string('kode_poli')->unique();
+    $table->string('nama');
+    $table->string('lantai')->nullable();
+    $table->string('jam_operasional')->nullable();
+    $table->timestamps();
+    $table->string('upload_gambar')->nullable();
+
+});
     }
 
     /**

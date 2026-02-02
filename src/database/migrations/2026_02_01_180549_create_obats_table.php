@@ -13,7 +13,15 @@ return new class extends Migration
     {
         Schema::create('obats', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+    $table->string('kode_obat')->unique();
+    $table->string('nama');
+    $table->string('kategori'); // Tablet, sirup, salep, kapsul, injeksi
+    $table->string('jenis'); // generik / non generik
+    $table->integer('stok')->default(0);
+    $table->integer('harga')->default(0);
+    $table->string('satuan'); // strip, botol, vial
+    $table->timestamps();
+    $table->string('upload_gambar')->nullable();
         });
     }
 

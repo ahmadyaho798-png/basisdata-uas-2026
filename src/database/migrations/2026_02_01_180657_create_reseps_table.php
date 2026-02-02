@@ -13,8 +13,16 @@ return new class extends Migration
     {
         Schema::create('reseps', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
-        });
+    $table->foreignId('kunjungan_id')->constrained()->cascadeOnDelete();
+    $table->foreignId('obat_id')->constrained()->cascadeOnDelete();
+    $table->integer('jumlah')->default(1);
+    $table->string('aturan_pakai'); // contoh: "3x1 sesudah makan"
+    $table->string('catatan')->nullable(); // note tambahan dokter
+
+    $table->timestamps();
+    $table->string('upload_gambar')->nullable();
+
+});
     }
 
     /**

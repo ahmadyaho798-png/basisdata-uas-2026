@@ -23,7 +23,34 @@ class ObatResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('kode_obat')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('nama')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('kategori')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('jenis')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('stok')
+                    ->required()
+                    ->numeric()
+                    ->default(0),
+                Forms\Components\TextInput::make('harga')
+                    ->required()
+                    ->numeric()
+                    ->default(0),
+                Forms\Components\TextInput::make('satuan')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\FileUpload::make('upload_gambar')
+                    ->disk('minio')
+                    ->visibility('public')
+                    ->image()
+                    ->maxSize(2048),
             ]);
     }
 
@@ -31,6 +58,22 @@ class ObatResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('kode_obat')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('nama')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('kategori')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('jenis')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('stok')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('harga')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('satuan')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -39,6 +82,8 @@ class ObatResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('upload_gambar')
+                    ->searchable(),
             ])
             ->filters([
                 //

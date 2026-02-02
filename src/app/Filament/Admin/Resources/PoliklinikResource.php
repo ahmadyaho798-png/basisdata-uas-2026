@@ -23,7 +23,27 @@ class PoliklinikResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('rumah_sakit_id')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('kode_poli')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('nama')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('lantai')
+                    ->maxLength(255)
+                    ->default(null),
+                Forms\Components\TextInput::make('jam_operasional')
+                    ->maxLength(255)
+                    ->default(null),
+                Forms\Components\FileUpload::make('upload_gambar')
+                    ->disk('minio')
+                    ->visibility('public')
+                    ->image()
+                    ->maxSize(2048),
+
             ]);
     }
 
@@ -31,6 +51,17 @@ class PoliklinikResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('rumah_sakit_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('kode_poli')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('nama')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('lantai')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('jam_operasional')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -39,6 +70,8 @@ class PoliklinikResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('upload_gambar')
+                    ->searchable(),
             ])
             ->filters([
                 //

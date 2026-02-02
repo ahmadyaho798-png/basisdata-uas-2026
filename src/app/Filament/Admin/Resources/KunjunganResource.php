@@ -23,33 +23,58 @@ class KunjunganResource extends Resource
     {
         return $form
             ->schema([
-                //
+
+                // NAMA PASIEN KETIK SENDIRI
+                Forms\Components\TextInput::make('nama_pasien')
+                    ->label('Nama Pasien')
+                    ->required(),
+
+                // Dokter masih boleh pilih
+                Forms\Components\Select::make('dokter_id')
+                    ->relationship('dokter', 'nama')
+                    ->required(),
+
+                Forms\Components\DatePicker::make('tanggal_kunjungan')
+                    ->required(),
+
+                Forms\Components\TextInput::make('keluhan')
+                    ->required(),
+
+                Forms\Components\FileUpload::make('upload_gambar')
+                    ->image()
+                    ->directory('kunjungan')
+                    ->disk('public'),
             ]);
     }
+
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-            ])
-            ->filters([
-                //
+
+                Tables\Columns\TextColumn::make('nama_pasien')
+                    ->label('Pasien')
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('dokter.nama')
+                    ->label('Dokter')
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('tanggal_kunjungan')
+                    ->date(),
+
+                Tables\Columns\TextColumn::make('keluhan')
+                    ->searchable(),
+
+                Tables\Columns\ImageColumn::make('upload_gambar')
+                    ->disk('public'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                Tables\Actions\DeleteBulkAction::make(),
             ]);
     }
 

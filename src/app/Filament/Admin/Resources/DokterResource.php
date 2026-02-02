@@ -23,7 +23,40 @@ class DokterResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('poliklinik_id')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('kode_dokter')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('nama')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('spesialisasi')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('no_str')
+                    ->maxLength(255)
+                    ->default(null),
+                Forms\Components\TextInput::make('no_sip')
+                    ->maxLength(255)
+                    ->default(null),
+                Forms\Components\TextInput::make('no_hp')
+                    ->maxLength(255)
+                    ->default(null),
+                Forms\Components\TextInput::make('email')
+                    ->email()
+                    ->maxLength(255)
+                    ->default(null),
+                Forms\Components\TextInput::make('pengalaman_tahun')
+                    ->numeric()
+                    ->default(null),
+                Forms\Components\FileUpload::make('upload_gambar')
+                    ->disk('minio')
+                    ->visibility('public')
+                    ->image()
+                    ->maxSize(2048),
+
             ]);
     }
 
@@ -31,6 +64,26 @@ class DokterResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('poliklinik_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('kode_dokter')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('nama')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('spesialisasi')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('no_str')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('no_sip')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('no_hp')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('email')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('pengalaman_tahun')
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -39,6 +92,8 @@ class DokterResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('upload_gambar')
+                    ->searchable(),
             ])
             ->filters([
                 //

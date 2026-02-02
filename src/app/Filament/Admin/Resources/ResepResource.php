@@ -23,7 +23,28 @@ class ResepResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('kunjungan_id')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('obat_id')
+                    ->required()
+                    ->numeric(),
+                Forms\Components\TextInput::make('jumlah')
+                    ->required()
+                    ->numeric()
+                    ->default(1),
+                Forms\Components\TextInput::make('aturan_pakai')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('catatan')
+                    ->maxLength(255)
+                    ->default(null),
+                Forms\Components\FileUpload::make('upload_gambar')
+                    ->disk('minio')
+                    ->visibility('public')
+                    ->image()
+                    ->maxSize(2048),
+
             ]);
     }
 
@@ -31,6 +52,19 @@ class ResepResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('kunjungan_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('obat_id')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('jumlah')
+                    ->numeric()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('aturan_pakai')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('catatan')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -39,6 +73,8 @@ class ResepResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('upload_gambar')
+                    ->searchable(),
             ])
             ->filters([
                 //
